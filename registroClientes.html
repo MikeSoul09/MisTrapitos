@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
+    <link href="/MisTrapitos/css/styles.css" rel="stylesheet"/>
+    <link href="/MisTrapitos/img/icono-registro.png" rel="icon"/>
+    <title>Registro Clientes</title>
+</head>
+<body>
+    <h1 class="titulo">Introduce los datos del cliente a registrar:</h1>
+
+    <div class="formulario">
+        <form method="post" autocomplete="off" class="row g-3">
+            <!--El id del cliente se generará automáticamente-->
+            <!--Nombre cliente-->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input class="form-control" type="text" id="nombre" name="nombre" maxlength="50" placeholder="José Castro" required>
+            </div>
+            
+            <div class="mb-3">
+                <!--Dirección-->
+                <label for="direccion" class="form-label">Dirección:</label>
+                <input  class="form-control" type="text" id="direccion" name="direccion" maxlength="250" placeholder="Av Revolución 1500" required>
+            </div>
+
+            <div class="mb-3">
+                <!--Correo electronico cliente-->
+                <label for="correo" class="form-label">Correo electrónico:</label>
+                <input  class="form-control" type="email" id="correo" name="correo" maxlength="50" placeholder="ejemplo@mail.com" required>
+            </div>
+
+            <div class="col-md-6">
+                <!--Numero de telefono cliente-->
+                <label for="telefono" class="form-label">Teléfono:</label>
+                <input class="form-control" type="tel" id="telefono" name="telefono"  pattern="[0-9]{10}" placeholder="1234567890" required>
+            </div>
+
+            <div class="d-grid gap-2 col-md-3 mx-auto">
+                <button type="button" class="btn btn-success">Guardar</button><!--Poner oncklick-->
+                <button type="reset" class="btn btn-info">Restablecer</button><br/><!--Reiniciar formulario-->
+                <a href="" class="btn btn-primary">Clientes Registrados</a> <!--VER SI ES NECESARIO-->
+            </div>
+        </form>
+</body>
+</html>
