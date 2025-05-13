@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
+    <link href="/MisTrapitos/css/styles.css" rel="stylesheet"/>
+    <link href="/MisTrapitos/img/icono-registro.png" rel="icon"/>
+    <title>Registro Proveedor</title>
+</head>
+<body>
+    <main>
+        <h1 class="titulo">Introduce los datos del PROVEEDOR a registrar:</h1>
+
+        <form method="post" autocomplete="off" class="row g-3">
+            <div class="col-md-6">
+                <label for="nombre-proveedor" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre-proveedor" name="nombre-proveedor" maxlength="50" placeholder="Nombre proveedor" required/><br/>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rfc-proveedor" class="form-label">RFC:</label><!--Funciona como el ID de la tabla-->
+                <input type="text" class="form-control" id="rfc-proveedor" name="rfc-proveedor" maxlength="13" required placeholder="AAA000101A0A"/><br/>
+            </div>
+
+            <div class="col-md-6">
+                <label for="correo-proveedor" class="form-label">Correo:</label>
+                <input type="email" class="form-control" id="correo-proveedor" name="correo-proveedor" placeholder="correo@ejemplo.com" maxlength="50" required><br/>
+            </div>
+
+            <div class="col-md-6">
+                <label for="telefono-proveedor" class="form-label">Teléfono:</label>
+                <input type="tel" class="form-control" id="telefono-proveedor" name="telefono-proveedor" pattern="[0-9]{10}" placeholder="1234567890" required/><br/>
+            </div>
+
+            <div class="col-12">
+                <label for="productos-proveedor" class="form-label">Tipos de productos que suministra:</label>
+                <input type="text" class="form-control" id="productos-proveedor" name="productos-proveedor" maxlength="50" placeholder="Camisetas, Pantalones, Accesorios" required/><br/>
+            </div>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-primary" onclick="">Guardar</button>
+                <button type="reset" class="btn btn-info">Restablecer</button><br/><!--Reiniciar formulario-->
+            </div>
+        </form> 
+    </main>
+</body>
+</html>
