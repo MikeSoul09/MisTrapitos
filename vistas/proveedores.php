@@ -45,7 +45,7 @@
         
         form button {
             grid-column: span 2;
-            background-color: #28a745;
+            background-color: #007bff;
             color: #fff;
             font-weight: bold;
             cursor: pointer;
@@ -53,7 +53,7 @@
         }
         
         form button:hover {
-            background-color: #1e7e34;
+            background-color: #0056b3;
         }
         
         table {
@@ -74,7 +74,7 @@
         }
         
         table th {
-            background-color: #28a745;
+            background-color: #007bff;
             color: #fff;
         }
         
