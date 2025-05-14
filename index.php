@@ -34,23 +34,24 @@
 
         .menu {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
+            margin-bottom: 40px;
         }
 
         .menu a {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px;
             background: linear-gradient(145deg, #007bff, #0056b3);
             color: white;
             text-decoration: none;
-            border-radius: 15px;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, background 0.3s ease;
         }
@@ -60,6 +61,47 @@
             transform: translateY(-5px);
         }
 
+        .logout-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .logout-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .menu a {
+                font-size: 1.1rem;
+                padding: 20px;
+            }
+
+            .logout-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+        }
+
         @media (max-width: 500px) {
             h1 {
                 font-size: 1.8rem;
@@ -67,11 +109,6 @@
 
             p {
                 font-size: 1rem;
-            }
-
-            .menu a {
-                font-size: 1rem;
-                padding: 15px;
             }
         }
     </style>
@@ -87,6 +124,10 @@
         <a href="vistas/inventario.php">📦 Inventario</a>
         <a href="vistas/proveedores.php">📇 Proveedores</a>
         <a href="vistas/consultas.php">📊 Consultas</a>
+    </div>
+
+    <div class="logout-container">
+        <a href="logout.php" class="logout-btn">🔒 Cerrar sesión</a>
     </div>
 </body>
 </html>
