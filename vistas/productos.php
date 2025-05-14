@@ -8,6 +8,90 @@ require_once '../php/conexion.php';
     <meta charset="UTF-8">
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="../css/estilo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: linear-gradient(to right, #f0f2f5, #d9e4f5);
+            color: #2c3e50;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            background-color: #ffffffcc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input, select, button {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            grid-column: span 2;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                grid-column: span 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Gestión de Productos</h1>
@@ -33,7 +117,7 @@ require_once '../php/conexion.php';
     </form>
 
     <h2>Listado de Productos</h2>
-    <table border="1">
+    <table>
         <tr>
             <th>Nombre</th>
             <th>Descripción</th>
@@ -65,5 +149,7 @@ require_once '../php/conexion.php';
         }
         ?>
     </table>
+<?php include '../php/volver.php'; ?>
 </body>
 </html>
+
