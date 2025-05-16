@@ -1,133 +1,152 @@
+<?php
+session_start();
+require_once "php/conexion.php";
+
+if (!isset($conn)) {
+    die("❌ Error: No se estableció la conexión a la base de datos.");}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST["usuario"];
+    $contrasena = $_POST["contrasena"];
+
+    $usuario = $conn->real_escape_string($usuario);
+    $contrasena = $conn->real_escape_string($contrasena);
+
+    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND password = '$contrasena'";
+    $resultado = $conn->query($sql);
+
+    if ($resultado->num_rows == 1) {
+        $fila = $resultado->fetch_assoc();
+        $_SESSION["usuario"] = $fila["usuario"];
+        $_SESSION["rol"] = $fila["rol"];
+        header("Location: vistas/home.php");
+        exit();
+    } else {
+        $error = "Usuario o contraseña incorrectos";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema de Gestión - Tienda de Ropa</title>
-    <link rel="stylesheet" href="css/estilo.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Login - Mis Trapitos</title>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #e0eafc, #cfdef3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        p {
-            color: #34495e;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            width: 100%;
-            max-width: 1000px;
-            margin-bottom: 40px;
-        }
-
-        .menu a {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
-            background: linear-gradient(145deg, #007bff, #0056b3);
-            color: white;
-            text-decoration: none;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 1.3rem;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background 0.3s ease;
         }
 
-        .menu a:hover {
-            background: linear-gradient(145deg, #0056b3, #004494);
-            transform: translateY(-5px);
-        }
-
-        .logout-container {
-            display: flex;
-            justify-content: center;
+        .login-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 100%;
-            margin-top: 20px;
+            max-width: 400px;
         }
 
-        .logout-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #e74c3c;
-            color: white;
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
             font-weight: bold;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #74ebd5;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
             border: none;
+            padding: 14px;
+            font-size: 16px;
             border-radius: 10px;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        .logout-btn:hover {
-            background-color: #c0392b;
-            transform: scale(1.05);
+        .btn:hover {
+            background-color: #0056b3;
         }
 
-        @media (max-width: 768px) {
-            .menu {
-                grid-template-columns: 1fr;
-            }
-
-            .menu a {
-                font-size: 1.1rem;
-                padding: 20px;
-            }
-
-            .logout-btn {
-                padding: 10px 20px;
-                font-size: 0.95rem;
-            }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
         }
+        .btn-registro {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+        }
+
+        .btn-registro:hover {
+        background-color: #0056b3;
+        }
+
 
         @media (max-width: 500px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            p {
-                font-size: 1rem;
+            .login-container {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Sistema de Gestión para Tienda de Ropa</h1>
-    <p>Selecciona una opción del sistema:</p>
-
-    <div class="menu">
-        <a href="vistas/productos.php">🛍️ Productos</a>
-        <a href="vistas/clientes.php">👤 Clientes</a>
-        <a href="vistas/ventas.php">🧾 Ventas</a>
-        <a href="vistas/inventario.php">📦 Inventario</a>
-        <a href="vistas/proveedores.php">📇 Proveedores</a>
-        <a href="vistas/consultas.php">📊 Consultas</a>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
+        <form method="post">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" id="usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" name="contrasena" id="contrasena" required>
+            </div>
+            <input type="submit" value="Iniciar Sesión" class="btn">
+            <div class="form-group" style="text-align: center; margin-top: 15px;">
+            <a href="php/registro.php" class="btn-registro">¿No tienes cuenta? Regístrate</a>
+            </div>
+        </form>
     </div>
 
-    <div class="logout-container">
-        <a href="logout.php" class="logout-btn">🔒 Cerrar sesión</a>
-    </div>
+
 </body>
 </html>
