@@ -23,4 +23,4 @@
   }
 </style>
 
-<a href="../index.php" class="btn-volver">← Volver a Inicio</a>
+<a href="../vistas/home.php" class="btn-volver">← Volver a Inicio</a>

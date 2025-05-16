@@ -25,7 +25,7 @@ if (isset($_POST['vender'])) {
     $id_venta = $stmt->insert_id;
 
     // Insertar detalle de venta
-    $stmt2 = $conn->prepare("INSERT INTO detalles_venta (id_venta, id_producto, cantidad) VALUES (?, ?, ?)");
+    $stmt2 = $conn->prepare("INSERT INTO detalle_ventas (id_venta, id_producto, cantidad) VALUES (?, ?, ?)");
     $stmt2->bind_param("iii", $id_venta, $id_producto, $cantidad);
     $stmt2->execute();
 
