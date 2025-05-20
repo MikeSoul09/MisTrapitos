@@ -2,29 +2,33 @@
 session_start();
 require_once "php/conexion.php";
 
-if (!isset($conn)) {
-    die("❌ Error: No se estableció la conexión a la base de datos.");}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
+    $usuario = $conn->real_escape_string($_POST["usuario"]);
     $contrasena = $_POST["contrasena"];
 
-    $usuario = $conn->real_escape_string($usuario);
-    $contrasena = $conn->real_escape_string($contrasena);
-
-    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario' AND password = '$contrasena'";
+    // Buscar solo por usuario
+    $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
     $resultado = $conn->query($sql);
 
-    if ($resultado->num_rows == 1) {
+    if ($resultado && $resultado->num_rows === 1) {
         $fila = $resultado->fetch_assoc();
-        $_SESSION["usuario"] = $fila["usuario"];
-        $_SESSION["rol"] = $fila["rol"];
-        header("Location: vistas/home.php");
-        exit();
+        $hash_almacenado = $fila["password"];
+
+        // Verificar la contraseña ingresada contra el hash guardado
+        if (password_verify($contrasena, $hash_almacenado)) {
+            $_SESSION["usuario"] = $fila["usuario"];
+            $_SESSION["rol"] = $fila["rol"];
+            header("Location: vistas/home.php");
+            exit();
+        } else {
+            $error = "Usuario o contraseña incorrectos.";
+        }
     } else {
-        $error = "Usuario o contraseña incorrectos";
+        $error = "Usuario o contraseña incorrectos.";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -44,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .login-container {
+            text-align: center;
             background: #fff;
             padding: 40px 30px;
             border-radius: 16px;
@@ -65,12 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 6px;
+            margin-bottom: 1px;
             color: #555;
         }
 
         input[type="text"], input[type="password"] {
-            width: 100%;
+            width: 93%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -142,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <input type="submit" value="Iniciar Sesión" class="btn">
             <div class="form-group" style="text-align: center; margin-top: 15px;">
-            <a href="php/registro.php" class="btn-registro">¿No tienes cuenta? Regístrate</a>
+
             </div>
         </form>
     </div>
