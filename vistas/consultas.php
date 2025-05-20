@@ -99,23 +99,25 @@
     $res = $conn->query("SELECT COUNT(*) AS total FROM productos WHERE categoria = 'Camisetas' AND stock > 0");
     $row = $res->fetch_assoc();
     consulta("2. ¿Cuántos productos de la categoría “Camisetas” están disponibles?",
-             "<p>Total: <strong>{$row['total']}</strong> camisetas disponibles</p>");
+             "<p>Total: <strong>{$row['total']}</strong> tipos de camisetas disponibles</p>");
 
     // 3
     $res = $conn->query("
-        SELECT v.fecha, p.nombre, dv.cantidad, dv.precio_unitario
-        FROM ventas v
-        JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
-        JOIN productos p ON dv.id_producto = p.id_producto
-        WHERE v.id_cliente = 101
-        ORDER BY v.fecha DESC
-    ");
+    SELECT v.fecha, p.nombre, dv.cantidad, dv.precio_unitario AS precio
+    FROM ventas v
+    JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
+    JOIN productos p ON dv.id_producto = p.id_producto
+    WHERE v.id_cliente = 101
+    ORDER BY v.fecha DESC
+");
+
     $html = "<ul>";
-    while ($row = $res->fetch_assoc()) {
-        $html .= "<li>{$row['fecha']} - {$row['nombre']} ({$row['cantidad']} unidades a \${$row['precio_unitario']})</li>";
-    }
-    $html .= "</ul>";
-    consulta("3. Historial de compras del cliente con ID 101", $html);
+while ($row = $res->fetch_assoc()) {
+    $html .= "<li>{$row['fecha']} - {$row['nombre']} ({$row['cantidad']})</li>";
+}
+$html .= "</ul>";
+consulta("3. Historial de compras del cliente con ID 101", $html);
+
 
     // 4
     $res = $conn->query("

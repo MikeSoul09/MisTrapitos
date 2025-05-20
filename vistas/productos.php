@@ -1,7 +1,14 @@
 <?php
 require_once '../php/conexion.php';
+session_start();
 
+// Redirige si no hay sesión iniciada
+if (!isset($_SESSION['usuario']) || !isset($_SESSION['rol'])) {
+    header("Location: ../index.php");
+    exit();
+}
 
+$rolUsuario = $_SESSION['rol'];
 ?>
 
 <!DOCTYPE html>
@@ -118,9 +125,10 @@ require_once '../php/conexion.php';
         <button type="submit" name="agregar">Agregar Producto</button>
     </form>
 
-    <h2>Listado de Productos</h2>
-    <table>
+        <h2>Listado de Productos</h2>
+        <table>
         <tr>
+            <th>ID producto</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Categoría</th>
@@ -130,27 +138,37 @@ require_once '../php/conexion.php';
             <th>Descuento</th>
             <th>Oferta Activa</th>
             <th>ID Proveedor</th>
+            <?php if ($rolUsuario === 'admin') echo "<th>Acciones</th>"; ?>
         </tr>
 
-        <?php
-        $resultado = $conn->query("SELECT * FROM productos");
-        $hoy = date('Y-m-d');
-        while ($fila = $resultado->fetch_assoc()) {
-            $oferta = ($fila['descuento'] > 0 && $fila['inicio_oferta'] <= $hoy && $fila['fin_oferta'] >= $hoy) ? '✅' : '—';
-            echo "<tr>
-                <td>{$fila['nombre']}</td>
-                <td>{$fila['descripcion']}</td>
-                <td>{$fila['categoria']}</td>
-                <td>\${$fila['precio']}</td>
-                <td>{$fila['stock']}</td>
-                <td>{$fila['talla_color']}</td>
-                <td>{$fila['descuento']}%</td>
-                <td>{$oferta}</td>
-                <td>{$fila['id_proveedor']}</td>
-            </tr>";
+    <?php
+    $resultado = $conn->query("SELECT * FROM productos");
+    $hoy = date('Y-m-d');
+    while ($fila = $resultado->fetch_assoc()) {
+        $oferta = ($fila['descuento'] > 0 && $fila['inicio_oferta'] <= $hoy && $fila['fin_oferta'] >= $hoy) ? '✅' : '—';
+        echo "<tr>
+            <td>{$fila['id_producto']}</td>
+            <td>{$fila['nombre']}</td>
+            <td>{$fila['descripcion']}</td>
+            <td>{$fila['categoria']}</td>
+            <td>\${$fila['precio']}</td>
+            <td>{$fila['stock']}</td>
+            <td>{$fila['talla_color']}</td>
+            <td>{$fila['descuento']}%</td>
+            <td>{$oferta}</td>
+            <td>{$fila['id_proveedor']}</td>";
+        
+        if ($rolUsuario === 'admin') {
+            echo "<td>
+                <a href='modificar_producto.php?id={$fila['id_producto']}' style='color: green;'>Modificar✏️</a>
+            </td>";
         }
-        ?>
-    </table>
+
+        echo "</tr>";
+    }
+    ?>
+</table>
+
 <?php include '../php/volver.php'; ?>
 </body>
 </html>

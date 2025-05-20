@@ -146,32 +146,32 @@ $productos = $conn->query("SELECT id_producto, nombre, stock FROM productos WHER
         </tr>
         <?php
         $sql = "SELECT 
-                    v.fecha, 
-                    c.nombre AS cliente, 
-                    p.nombre AS producto, 
-                    dv.cantidad, 
-                    dv.precio_unitario,
-                    v.metodo_pago
-                FROM ventas v
-                INNER JOIN clientes c ON v.id_cliente = c.id_cliente
-                INNER JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
-                INNER JOIN productos p ON dv.id_producto = p.id_producto
-                ORDER BY v.fecha DESC";
+            v.fecha, 
+            c.nombre AS cliente, 
+            p.nombre AS producto, 
+            dv.cantidad, 
+            p.precio,
+            v.metodo_pago
+        FROM ventas v
+        INNER JOIN clientes c ON v.id_cliente = c.id_cliente
+        INNER JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
+        INNER JOIN productos p ON dv.id_producto = p.id_producto
+        ORDER BY v.fecha DESC";
 
         $ventas = $conn->query($sql);
 
         if ($ventas) {
             while ($fila = $ventas->fetch_assoc()) {
-                $total = $fila['cantidad'] * $fila['precio_unitario'];
-                echo "<tr>
-                    <td>{$fila['fecha']}</td>
-                    <td>{$fila['cliente']}</td>
-                    <td>{$fila['producto']}</td>
-                    <td>{$fila['cantidad']}</td>
-                    <td>$" . number_format($fila['precio_unitario'], 2) . "</td>
-                    <td>$" . number_format($total, 2) . "</td>
-                    <td>{$fila['metodo_pago']}</td>
-                </tr>";
+            $total = $fila['cantidad'] * $fila['precio']; // Cambiar stock por cantidad
+            echo "<tr>
+                <td>{$fila['fecha']}</td>
+                <td>{$fila['cliente']}</td>
+                <td>{$fila['producto']}</td>
+                <td>{$fila['cantidad']}</td> <!-- Cambiar stock por cantidad -->
+                <td>$" . number_format($fila['precio'], 2) . "</td>
+                <td>$" . number_format($total, 2) . "</td>
+                <td>{$fila['metodo_pago']}</td>
+            </tr>";
             }
         } else {
             echo "<tr><td colspan='7'>Error al obtener las ventas: {$conn->error}</td></tr>";

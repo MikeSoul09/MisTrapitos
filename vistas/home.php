@@ -1,8 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION['rol'])) {
+    header("Location: index.php");
+    exit();
+}
+$rol = $_SESSION['rol'];
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema de Gestión - Tienda de Ropa</title>
+    <title>Sistema de Gestión - Mis Trapitos</title>
     <link rel="stylesheet" href="css/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -114,17 +122,29 @@
     </style>
 </head>
 <body>
+    <body>
     <h1>Sistema de Gestión para Tienda de Ropa</h1>
     <p>Selecciona una opción del sistema:</p>
 
-    <div class="menu">
-        <a href="productos.php">🛍️ Productos</a>
-        <a href="clientes.php">👤 Clientes</a>
-        <a href="ventas.php">🧾 Ventas</a>
-        <a href="inventario.php">📦 Inventario</a>
-        <a href="proveedores.php">📇 Proveedores</a>
-        <a href="consultas.php">📊 Consultas</a>
+    <div class="usuario-info">
+    <p>Bienvenido, <strong><?php echo $_SESSION['usuario']; ?></strong></p>
+    <p>Rol: <strong><?php echo ucfirst($rol); ?></strong></p>
     </div>
+    <div class="menu">
+    <?php if ($rol == 'admin' || $rol == 'vendedor'): ?>
+        <a href="productos.php" class="menu-item">🛍️ Productos</a>
+        <a href="clientes.php" class="menu-item">👤 Clientes</a>
+        <a href="ventas.php" class="menu-item">🧾 Ventas</a>
+        <a href="consultas.php" class="menu-item">📊 Consultas</a>
+        <a href="reportes.php" class="menu-item">🧾 Reportes Ventas</a>
+    <?php endif; ?>
+
+    <?php if ($rol == 'admin'): ?>
+        <a href="inventario.php" class="menu-item">📦 Inventario</a>
+        <a href="proveedores.php" class="menu-item">📇 Proveedores</a>
+        <a href="gestion_usuarios.php" class="menu-item">💼 Usuarios</a>
+    <?php endif; ?>
+</div>
 
     <div class="logout-container">
         <a href="../php/logout.php" class="logout-btn">🔒 Cerrar sesión</a>
