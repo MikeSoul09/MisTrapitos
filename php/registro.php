@@ -1,35 +1,32 @@
 <?php
-require_once "conexion.php";
 
-if (!isset($conn)) {
-    die("❌ Error: No se estableció la conexión a la base de datos.");}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = trim($_POST["nombre"]);
-    $usuario = trim($_POST["usuario"]);
-    $contrasena = $_POST["contrasena"];
-    $rol = 'vendedor'; // fijo
+    include 'conexion.php';
 
-    $nombre = $conn->real_escape_string($nombre);
-    $usuario = $conn->real_escape_string($usuario);
+    $nombre = $_POST['nombre'];
+    $usuario = $_POST['usuario'];
+    $contrasena = $_POST['contrasena'];
 
-    // Verificar si el usuario ya existe
-    $check_sql = "SELECT id FROM usuarios WHERE usuario = '$usuario'";
-    $check_resultado = $conn->query($check_sql);
+    $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-    if ($check_resultado->num_rows > 0) {
-        $error = "⚠️ El nombre de usuario ya está en uso. Elige otro.";
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = ?");
+    $stmt->bind_param("s", $usuario);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows > 0) {
+        $error = "El nombre de usuario ya está en uso.";
     } else {
-        // Cifrar la contraseña
-        $password_hash = password_hash($contrasena, PASSWORD_DEFAULT);
+        $rol = 'vendedor';
+        $stmt = $conn->prepare("INSERT INTO usuarios (nombre, usuario, password, rol) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $nombre, $usuario, $hash, $rol);
 
-        $sql = "INSERT INTO usuarios (nombre, usuario, password, rol) 
-                VALUES ('$nombre', '$usuario', '$password_hash', '$rol')";
 
-        if ($conn->query($sql)) {
-            header("Location: index.php?registro=exitoso");
+        if ($stmt->execute()) {
+            header("Location: ../index.php");
             exit();
         } else {
-            $error = "❌ Error al registrar: " . $conn->error;
+            $error = "Error al registrar usuario.";
         }
     }
 }
@@ -39,88 +36,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Usuario</title>
+    <title>Registro</title>
     <style>
         body {
-            background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
         .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 420px;
-        }
-
-        h2 {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            width: 350px;
             text-align: center;
-            margin-bottom: 20px;
-            color: #333;
         }
-
+        .form-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
         .form-group {
             margin-bottom: 15px;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
-            font-weight: 500;
         }
-
-        input {
-            width: 100%;
+        input[type="text"], input[type="password"] {
+            width: 94%;
             padding: 10px;
-            border: 1px solid #bbb;
-            border-radius: 8px;
-            outline: none;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-
         .btn {
             width: 100%;
-            padding: 12px;
-            background-color: #2196F3;
+            background-color: #007bff;
             color: white;
+            padding: 10px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-weight: bold;
             cursor: pointer;
         }
-
         .btn:hover {
-            background-color: #0b7dda;
+            background-color: #0056b3;
         }
-
+        .back {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .back a {
+            color: #007bff;
+            text-decoration: none;
+        }
         .error {
             color: red;
             text-align: center;
             margin-bottom: 10px;
-        }
-
-        .success {
-            color: green;
-            text-align: center;
-        }
-
-        .back {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .back a {
-            color: #2196F3;
-            text-decoration: none;
-        }
-
-        .back a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
