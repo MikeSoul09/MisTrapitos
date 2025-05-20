@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-05-2025 a las 21:35:27
+-- Tiempo de generación: 20-05-2025 a las 07:07:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -41,9 +41,9 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nombre`, `direccion`, `correo`, `telefono`, `ciudad`) VALUES
-(1, 'Carlos Mendoza', 'Av. Libertad 500', 'carlos.mendoza@gmail.com', '3311112222', 'Guadalajara'),
-(2, 'Ana López', 'Calle Rosa 89', 'ana.lopez@yahoo.com', '3322223333', 'Zapopan'),
-(3, 'Laura Torres', 'Calle Lago 22', 'laura.torres@hotmail.com', '3333334444', 'Guadalajara');
+(101, 'Carlos Mendoza', 'Av. Libertad 500', 'carlos.mendoza@gmail.com', '3311112222', 'Guadalajara'),
+(102, 'Ana López', 'Calle Rosa 89', 'ana.lopez@yahoo.com', '3322223333', 'Zapopan'),
+(103, 'Laura Torres', 'Calle Lago 22', 'laura.torres@hotmail.com', '3333334444', 'Guadalajara');
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,13 @@ CREATE TABLE `detalle_ventas` (
 --
 
 INSERT INTO `detalle_ventas` (`id_detalle`, `id_venta`, `id_producto`, `cantidad`, `precio_unitario`) VALUES
-(1, 7, 1, 10, 0.00);
+(1, 7, 1, 10, 0.00),
+(2, 8, 1, 10, 0.00),
+(3, 9, 2, 15, 0.00),
+(5, 11, 3, 20, 0.00),
+(7, 15, 1, 10, 0.00),
+(16, 24, 3, 5, 0.00),
+(17, 25, 1, 10, 0.00);
 
 -- --------------------------------------------------------
 
@@ -91,11 +97,11 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `categoria`, `descripcion`, `precio`, `stock`, `talla_color`, `descuento`, `inicio_oferta`, `fin_oferta`, `id_proveedor`) VALUES
-(1, 'Camiseta Blanca', 'Camisetas', 'Camiseta de algodón blanca', 199.99, 20, 'S,M,L', 10.00, '2025-05-01', '2025-05-31', 1),
-(2, 'Camiseta Negra', 'Camisetas', 'Camiseta casual negra', 219.99, 30, 'M,L,XL', 0.00, NULL, NULL, 1),
-(3, 'Pantalón Azul', 'Pantalones', 'Pantalón de mezclilla azul', 399.00, 40, '30,32,34', 5.00, '2025-05-10', '2025-05-25', 2),
-(4, 'Gorra Estilo', 'Accesorios', 'Gorra con diseño urbano', 150.50, 20, 'Única', 0.00, NULL, NULL, 3),
-(5, 'Cinturón Cuero', 'Accesorios', 'Cinturón de cuero genuino', 299.90, 15, 'M,L', 15.00, '2025-05-05', '2025-06-01', 3);
+(1, 'Camiseta Blanca', 'Camisetas', 'Camiseta de algodón blanca', 199.99, 90, '0', 0.00, '2025-05-01', '2025-05-31', 1),
+(2, 'Camiseta Negra', 'Camisetas', 'Camiseta casual negra', 219.99, 100, '0', 0.00, '0000-00-00', '0000-00-00', 1),
+(3, 'Pantalón Azul', 'Pantalones', 'Pantalón de mezclilla azul', 399.00, 150, '30', 0.00, '2025-05-10', '2025-05-25', 2),
+(4, 'Gorra Estilo', 'Accesorios', 'Gorra con diseño urbano', 150.50, 200, '0', 0.00, '0000-00-00', '0000-00-00', 3),
+(5, 'Cinturón Cuero', 'Accesorios', 'Cinturón de cuero genuino', 299.90, 150, '0', 15.00, '2025-05-05', '2025-06-01', 3);
 
 -- --------------------------------------------------------
 
@@ -139,7 +145,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `usuario`, `password`, `rol`) VALUES
-(1, 'admin', 'admin', 'Test!1234', 'admin');
+(7, 'MIguel Isaac', 'Migueles1009', '$2y$10$P.XtY9YDcsHb9mfs.RInlurrgZjeSa9Y0Il.gr2jWSI4JK/OgkCUm', 'vendedor'),
+(8, 'Jose', 'Peputo', '$2y$10$psFa2Sfk0rkMWUov9piGR./BeFw6NgEOsJeqzpe0ybMcr9aF4vJsO', 'admin'),
+(9, 'User1', 'User1', '$2y$10$ZwzXloQj7ualGugv.e/y6eAKxY4GtoYebljd510qhk1LbXBmOghVK', 'vendedor'),
+(10, 'Isaac', 'Isaquesedeaqui', '$2y$10$IpF3C8l4DFVrZlZlNQmsb.yjfNXPZ.Ld7/YtOnMqis6GzeCkrjHym', 'admin');
 
 -- --------------------------------------------------------
 
@@ -159,13 +168,23 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`id_venta`, `id_cliente`, `fecha`, `metodo_pago`) VALUES
-(1, 1, '2025-05-10 14:30:00', 'Tarjeta'),
-(2, 2, '2025-05-11 16:00:00', 'Efectivo'),
-(3, 3, '2025-05-12 12:00:00', 'Transferencia'),
-(4, 1, '2025-05-13 19:19:16', 'Efectivo'),
-(5, 1, '2025-05-13 19:29:26', 'Efectivo'),
-(6, 1, '2025-05-13 20:49:12', 'Efectivo'),
-(7, 1, '2025-05-13 20:50:58', 'Efectivo');
+(1, 101, '2025-05-10 14:30:00', 'Tarjeta'),
+(2, 102, '2025-05-11 16:00:00', 'Efectivo'),
+(3, 103, '2025-05-12 12:00:00', 'Transferencia'),
+(4, 101, '2025-05-13 19:19:16', 'Efectivo'),
+(5, 101, '2025-05-13 19:29:26', 'Efectivo'),
+(6, 101, '2025-05-13 20:49:12', 'Efectivo'),
+(7, 101, '2025-05-13 20:50:58', 'Efectivo'),
+(8, 101, '2025-05-16 16:13:08', 'Transferencia'),
+(9, 102, '2025-05-19 15:09:50', 'Efectivo'),
+(11, 103, '2025-05-19 15:10:56', 'Efectivo'),
+(13, 103, '2025-05-19 22:17:50', 'Efectivo'),
+(14, 103, '2025-05-19 22:18:28', 'Efectivo'),
+(15, 103, '2025-05-19 22:19:11', 'Efectivo'),
+(20, 103, '2025-05-20 00:00:00', 'Efectivo'),
+(21, 103, '2025-05-19 22:34:42', 'Efectivo'),
+(24, 102, '2025-05-19 22:47:49', 'Efectivo'),
+(25, 101, '2025-05-19 23:04:42', 'Tarjeta');
 
 --
 -- Índices para tablas volcadas
@@ -223,19 +242,19 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_ventas`
 --
 ALTER TABLE `detalle_ventas`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
@@ -247,13 +266,13 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Restricciones para tablas volcadas
