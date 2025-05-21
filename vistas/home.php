@@ -123,19 +123,18 @@ $rol = $_SESSION['rol'];
 </head>
 <body>
     <body>
-    <h1>Sistema de Gestión para Tienda de Ropa</h1>
-    <p>Selecciona una opción del sistema:</p>
-
+    <h1>Sistema de Gestión para Mis Trapitos</h1>
+    
     <div class="usuario-info">
     <p>Bienvenido, <strong><?php echo $_SESSION['usuario']; ?></strong></p>
     <p>Rol: <strong><?php echo ucfirst($rol); ?></strong></p>
     </div>
+    <p>Selecciona una opción del sistema:</p>
     <div class="menu">
     <?php if ($rol == 'admin' || $rol == 'vendedor'): ?>
         <a href="productos.php" class="menu-item">🛍️ Productos</a>
         <a href="clientes.php" class="menu-item">👤 Clientes</a>
         <a href="ventas.php" class="menu-item">🧾 Ventas</a>
-        <a href="consultas.php" class="menu-item">📊 Consultas</a>
         <a href="reportes.php" class="menu-item">🧾 Reportes Ventas</a>
     <?php endif; ?>
 
@@ -143,6 +142,7 @@ $rol = $_SESSION['rol'];
         <a href="inventario.php" class="menu-item">📦 Inventario</a>
         <a href="proveedores.php" class="menu-item">📇 Proveedores</a>
         <a href="gestion_usuarios.php" class="menu-item">💼 Usuarios</a>
+        <a href="consultas.php" class="menu-item">📊 Consultas</a>
     <?php endif; ?>
 </div>
 

@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $stmt = $conn->prepare("UPDATE productos SET nombre=?, descripcion=?, categoria=?, precio=?, stock=?, talla_color=?, descuento=?, inicio_oferta=?, fin_oferta=?, id_proveedor=? WHERE id_producto=?");
-    $stmt->bind_param("sssdidsssii", $nombre, $descripcion, $categoria, $precio, $stock, $talla_color, $descuento, $inicio, $fin, $proveedor, $id_producto);
+    $stmt->bind_param("sssdissssii", $nombre, $descripcion, $categoria, $precio, $stock, $talla_color, $descuento, $inicio, $fin, $proveedor, $id_producto);
 
 
     if ($stmt->execute()) {

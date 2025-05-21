@@ -103,7 +103,7 @@
 
     // 3
     $res = $conn->query("
-    SELECT v.fecha, p.nombre, dv.cantidad, dv.precio_unitario AS precio
+    SELECT v.fecha, p.nombre, dv.cantidad, p.precio AS precio
     FROM ventas v
     JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
     JOIN productos p ON dv.id_producto = p.id_producto

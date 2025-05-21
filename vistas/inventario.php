@@ -7,6 +7,7 @@
     <title>Inventario de Productos</title>
     <link rel="stylesheet" href="../css/estilo.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -107,6 +108,10 @@
         <input type="date" name="fin_oferta">
         <button type="submit" name="agregar">Agregar Producto</button>
     </form>
+
+     <div class="mt-6 text-center">
+        <a href="../vistas/productos_menos_vendidos.php" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Productos Menos Vendidos</a>
+    </div><br><br>
 
     <h2>Inventario Actual</h2>
     <table>
