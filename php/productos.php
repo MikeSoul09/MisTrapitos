@@ -24,7 +24,7 @@ if (isset($_POST['agregar'])) {
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "sssdsdsssi",
+        "sssdsssssi",
         $nombre,
         $descripcion,
         $categoria,
